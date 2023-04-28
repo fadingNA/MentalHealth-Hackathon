@@ -36,19 +36,23 @@ const options = Country.getAllCountries().map(country => ({
     label: country.name,
 }));
 const {useState} = React;
+
 function CityPicker() {
     const [selectedCountry, setSelectedCountry] = useState<option>(null);
     const [selectedCity, setSelectedCity] = useState<CityOption>(null);
     const router = useRouter();
+
     function handleSelectedCountry(option: option) {
         setSelectedCountry(option)
         setSelectedCity(null);
 
     }
+
     function handleSelectedCity(option: CityOption) {
         setSelectedCity(option)
         router.push(`/location/${option?.value.latitude}/${option?.value.longitude}`)
     }
+
     return (
         <div className={'space-y-4'}>
             <div className={'space-y-2'}>
