@@ -1,13 +1,16 @@
 'use client';
-import * as React from 'react';
+import {useState} from "react";
+//const {useState} = React;
+//const {useEffect} = React;
 import Select from 'react-select';
 import {Text} from "@tremor/react";
 import {Country, State, City} from 'country-state-city';
 import {GlobeIcon} from "@heroicons/react/solid";
 import {useRouter} from "next/navigation";
 
+// improve this one tonight Non.
 
-type option = {
+type option = { // no advantage to declare type.
     value: {
         latitude: string;
         longitude: string;
@@ -35,22 +38,26 @@ const options = Country.getAllCountries().map(country => ({
     },
     label: country.name,
 }));
-const {useState} = React;
 
 function CityPicker() {
+    // @ts-ignore
     const [selectedCountry, setSelectedCountry] = useState<option>(null);
-    const [selectedCity, setSelectedCity] = useState<CityOption>(null);
+    // @ts-ignore
+    const [selectedCity, setSelectedCity] = useState<CityOption>([]);
+
     const router = useRouter();
 
-    function handleSelectedCountry(option: option) {
-        setSelectedCountry(option)
-        setSelectedCity(null);
+    // useEffect here
 
+    // we can map over empty array.
+
+    function handleSelectedCountry(option: option) {
+        setSelectedCountry(option);
     }
 
     function handleSelectedCity(option: CityOption) {
         setSelectedCity(option)
-        router.push(`/location/${option?.value.latitude}/${option?.value.longitude}`)
+        router.push(`/location/${option?.value.name}/${option?.value.latitude}/${option?.value.longitude}`)
     }
 
     return (
@@ -95,6 +102,8 @@ function CityPicker() {
             )}
         </div>
     )
+    // in addition to that use api, I should have function not sit inside the useEffect.
+    // Triggered function api call the city,
 }
 
 export default CityPicker;
